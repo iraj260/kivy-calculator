@@ -1,4 +1,4 @@
-  name: Build APK
+name: Build APK
 
 on:
   push:
@@ -47,4 +47,3 @@ jobs:
         with:
           name: my-kivy-apk
           path: bin/*.apk
-   
