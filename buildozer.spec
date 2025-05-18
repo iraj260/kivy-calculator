@@ -30,7 +30,6 @@ android.permissions = INTERNET
 log_level = 2
 warn_on_root = 1
 
-android.sdk = 24
 android.sdk = 34
 android.accept_sdk_license = True
 android.ndk = 23b
