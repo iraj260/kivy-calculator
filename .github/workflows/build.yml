@@ -7,28 +7,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y zip unzip openjdk-17-jdk python3-pip python3-setuptools git curl
-        pip install buildozer cython virtualenv
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip
+          python3 -m pip install --upgrade pip setuptools wheel
+          pip install buildozer cython
 
-    - name: Initialize buildozer
-      run: |
-        buildozer android debug
+      - name: Initialize buildozer
+        run: |
+          buildozer android debug
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: calculator-apk
-        path: bin/*.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: kivy-calculator-apk
+          path: bin/*.apk
+
