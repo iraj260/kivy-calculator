@@ -31,6 +31,8 @@ log_level = 2
 warn_on_root = 1
 
 android.sdk = 24
+android.sdk = 34
+android.accept_sdk_license = True
 android.ndk = 23b
 android.api = 30
 android.build_tools_version = 30.0.3
