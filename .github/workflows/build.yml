@@ -3,17 +3,17 @@ name: Build APK
 on:
   push:
     branches:
-      - main  # یا هر برنچی که استفاده می‌کنی
+      - main  # اگر شاخه‌ات main نیست، تغییر بده
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Build with Buildozer
-      uses: kivy/buildozer-action@v1
-      with:
-        command: buildozer android debug
-
+      - name: Build the APK
+        uses: ractoc/buildozer-action@v1.1.5
+        with:
+          command: buildozer android debug
