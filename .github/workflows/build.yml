@@ -1,9 +1,8 @@
-      - name: Build APK
-        run: |
-          export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/34.0.0:$PATH
-          echo "sdk.dir=$ANDROID_HOME" > local.properties
-          buildozer android debug
+  name: Build APK
+
+on:
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -28,7 +27,7 @@ jobs:
           unzip tools.zip
           mv cmdline-tools latest
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/34.0.0:$PATH
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
@@ -39,7 +38,8 @@ jobs:
       - name: Build APK
         run: |
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/34.0.0:$PATH
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
           buildozer android debug
 
       - name: Upload APK
@@ -47,3 +47,4 @@ jobs:
         with:
           name: my-kivy-apk
           path: bin/*.apk
+   
