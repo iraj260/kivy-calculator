@@ -15,7 +15,7 @@ android.permissions = INTERNET
 log_level = 2
 warn_on_root = 1
 
-[android]
+
 title = calculator
 package.name = calculator
 package.domain = org.test
@@ -29,12 +29,12 @@ android.permissions = INTERNET
 
 log_level = 2
 warn_on_root = 1
-
-android.sdk = 34
+[android]
+android.sdk = 33
 android.accept_sdk_license = True
 android.ndk = 23b
 android.api = 30
-android.build_tools_version = 33.0.3
+android.build_tools_version = 33.0.2
 # این قسمت می‌تونه برای آیکون سفارشی استفاده بشه:
 # icon.filename = %(source.dir)s/icon.png
 # این قسمت می‌تونه برای آیکون سفارشی استفاده بشه:
