@@ -30,7 +30,6 @@ android.permissions = INTERNET
 log_level = 2
 warn_on_root = 1
 
-[android]
 android.sdk = 24
 android.ndk = 23b
 android.api = 30
