@@ -1,8 +1,9 @@
-name: Build APK
-
-on:
-  push:
-    branches: [main]
+      - name: Build APK
+        run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/34.0.0:$PATH
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          buildozer android debug
 
 jobs:
   build:
