@@ -30,6 +30,8 @@ jobs:
           if [ ! -f buildozer.spec ]; then
             buildozer init
           fi
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
 
       - name: Build APK
         run: |
