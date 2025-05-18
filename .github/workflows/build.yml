@@ -27,11 +27,9 @@ jobs:
 
       - name: Accept licenses and install SDK components
         run: |
-          mkdir -p ~/.android
-          echo "### Automatically accept licenses" > ~/.android/repositories.cfg
-          yes | sdkmanager --licenses || true
-          sdkmanager "build-tools;33.0.2" "platforms;android-33" || true
-
+          yes | sdkmanager --licenses
+          sdkmanager "build-tools;30.0.3"
+          
       - name: Initialize buildozer
         run:  pip install buildozer
                 
