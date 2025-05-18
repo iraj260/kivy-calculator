@@ -3,17 +3,28 @@ name: Build APK
 on:
   push:
     branches:
-      - main  # اگر شاخه‌ات main نیست، تغییر بده
+      - main  # یا شاخه‌ای که استفاده می‌کنی
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Build the APK
-        uses: ractoc/buildozer-action@v1.1.5
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y zip unzip openjdk-17-jdk
+          pip install buildozer cython
+
+      - name: Build APK
+        uses: rdoiron/buildozer-action@v1
         with:
           command: buildozer android debug
