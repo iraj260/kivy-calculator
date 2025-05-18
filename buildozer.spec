@@ -13,7 +13,7 @@ android.permissions = INTERNET
 
 [buildozer]
 log_level = 2
-warn_on_root = 1
+warn_on_root = 0
 
 
 title = calculator
@@ -28,7 +28,7 @@ fullscreen = 0
 android.permissions = INTERNET
 
 
-warn_on_root = 1
+
 [android]
 android.sdk = 33
 android.accept_sdk_license = True
