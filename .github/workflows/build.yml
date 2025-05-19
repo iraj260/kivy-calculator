@@ -23,9 +23,11 @@ jobs:
           sudo apt update
           sudo apt install -y python3-pip build-essential git zip unzip openjdk-17-jdk
           pip install --upgrade pip
+          pip install cython
           pip install buildozer
 
       - name: Build APK
         run: |
           cd $GITHUB_WORKSPACE
           buildozer android debug
+
