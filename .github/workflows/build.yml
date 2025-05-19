@@ -4,14 +4,15 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source
-      uses: actions/checkout@v2
+    - name: Post Checkout source
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -20,11 +21,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt update
-        sudo apt install -y zip unzip openjdk-17-jdk
-        pip install --upgrade pip
-        pip install cython
-        pip install buildozer
+        python -m pip install --upgrade pip
+        pip install buildozer cython virtualenv
 
     - name: Install Android SDK & NDK
       run: |
@@ -34,9 +32,22 @@ jobs:
         unzip cmdline-tools.zip -d cmdline-tools-temp
         mkdir -p cmdline-tools
         mv cmdline-tools-temp/cmdline-tools cmdline-tools/latest
-        yes | cmdline-tools/latest/bin/sdkmanager --sdk_root=${HOME}/.buildozer/android/platform --licenses
-        yes | cmdline-tools/latest/bin/sdkmanager --sdk_root=${HOME}/.buildozer/android/platform "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620"
+        export PATH=$HOME/.buildozer/android/platform/cmdline-tools/latest/bin:$PATH
+        yes | sdkmanager --sdk_root=${HOME}/.buildozer/android/platform --licenses
+        yes | sdkmanager --sdk_root=${HOME}/.buildozer/android/platform \
+          "platform-tools" \
+          "platforms;android-31" \
+          "build-tools;31.0.0" \
+          "ndk;23.1.7779620" \
+          "tools"
 
     - name: Build APK
       run: |
+        export PATH=$HOME/.buildozer/android/platform/cmdline-tools/latest/bin:$PATH
         buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: kivy-calculator-apk
+        path: bin/*.apk
