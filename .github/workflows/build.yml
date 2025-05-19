@@ -1,48 +1,72 @@
-name: Build APK
+[app]
 
-on:
-  push:
-    branches:
-      - main
+title = Calculator
+package.name = calculator
+package.domain = org.kivy
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas
+version = 0.1
+requirements = python3,kivy
+orientation = portrait
+osx.kivy_version = 2.1.0
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+fullscreen = 1
 
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
+[buildozer]
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+log_level = 2
+warn_on_root = 1
 
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y python3-pip build-essential git zip unzip openjdk-17-jdk wget
-          pip install --upgrade pip
-          pip install Cython
-          pip install buildozer
+# مسیر SDK اندروید
+android.sdk_path = /home/runner/.buildozer/android/platform/android-sdk
 
-      - name: Install Android SDK and Build Tools
-        run: |
-          mkdir -p $HOME/.buildozer/android/platform
-          cd $HOME/.buildozer/android/platform
-          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d cmdline-tools-temp
-          mkdir -p $HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest
-          mv cmdline-tools-temp/cmdline-tools/* $HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/
+# (str) Android NDK directory (if empty, it will be automatically downloaded.)
+android.ndk_path = 
 
-          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+# (str) Android entry point, default is ok
+android.entrypoint = org.kivy.android.PythonActivity
 
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
+# (str) Android app theme, default is 'import android' (crashes with newer toolchains)
+# android.theme = '@android:style/Theme.NoTitleBar'
 
-      - name: Build APK
-        run: |
-          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          buildozer android debug
+# (bool) Use --private data storage (True) or --dir public storage (False)
+android.private_storage = True
+
+# (str) Android NDK version to use (this is optional)
+android.ndk = 25b
+
+# (bool) Use --bootstrap=webview to use the kivy-ios WebView
+# ios.use_webview = False
+
+# (list) Permissions
+android.permissions = INTERNET
+
+# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
+orientation = portrait
+
+# (bool) Indicate if the application should be fullscreen or not
+fullscreen = 1
+
+# (bool) Hide the statusbar
+android.hide_statusbar = 0
+
+# (str) Application icon
+# icon.filename = %(source.dir)s/icon.png
+
+# (list) Supported Android architectures
+android.archs = armeabi-v7a, arm64-v8a
+
+# (str) Android API to use
+android.api = 31
+
+# (str) Minimum API your APK will support
+android.minapi = 21
+
+# (str) Android SDK version to use
+android.sdk = 26
+
+# (str) Extra command line arguments to pass when starting the application
+# android.extra_args = 
+
+# (bool) Copy library instead of making a libpymodules.so
+copy_libs = 1
