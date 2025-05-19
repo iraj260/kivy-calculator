@@ -21,16 +21,26 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip build-essential git zip unzip openjdk-17-jdk
+          sudo apt install -y python3-pip build-essential git zip unzip openjdk-17-jdk wget
           pip install --upgrade pip
           pip install cython
           pip install buildozer
 
-      - name: Accept Android SDK licenses
+      - name: Install Android SDK manually
         run: |
-          echo "sdk.dir=$HOME/.buildozer/android/platform/android-sdk" > local.properties
-          yes | sdkmanager --licenses || true
+          mkdir -p $HOME/.buildozer/android/platform
+          cd $HOME/.buildozer/android/platform
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
+          unzip cmdline-tools.zip
+          mkdir -p $HOME/.buildozer/android/platform/android-sdk/cmdline-tools
+          mv cmdline-tools $HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest
+          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
 
       - name: Build APK
         run: |
+          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           buildozer android debug
