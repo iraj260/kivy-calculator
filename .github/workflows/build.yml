@@ -70,3 +70,4 @@ android.sdk = 26
 
 # (bool) Copy library instead of making a libpymodules.so
 copy_libs = 1
+
